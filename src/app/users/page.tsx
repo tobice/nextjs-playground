@@ -1,16 +1,11 @@
 'use client'
 
 import User from "@/app/common/users/User";
-import {useEffect, useState} from "react";
-import {getUsers, addUser} from "@/app/users/api";
-
+import {getUsers, addUser, USERS_KEY} from "@/app/users/api";
+import useSWR from "swr";
 
 export default function Home() {
-    const [users, setUsers] = useState([])
-
-    useEffect(() => {
-        getUsers().then(setUsers)
-    }, [])
+    const { data: users, mutate } = useSWR(USERS_KEY, getUsers)
 
     const user: User = {
         id: "",
@@ -21,12 +16,11 @@ export default function Home() {
 
     async function handleAddUser() {
         await addUser(user)
-        const users = await getUsers()
-        setUsers(users)
+        await mutate()
     }
 
     return <div>
         <button onClick={() => handleAddUser()}>Add user</button>
-        {users.map(user => <div key={user.id}>{user.firstName} {user.lastName}</div>)}
+        {users && users.map(user => <div key={user.id}>{user.firstName} {user.lastName}</div>)}
     </div>
 }
