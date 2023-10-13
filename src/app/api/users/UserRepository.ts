@@ -33,8 +33,39 @@ const users: User[] = [
     }
 ];
 
-export function getUsers(): User[] {
-    return users
+export enum UserOrderBy {
+    FirstName = "firstName",
+    LastName = "lastName",
+}
+
+export function getUsers(orderBy?: UserOrderBy): User[] {
+    const sortedUsers = [...users]
+
+    function compareStrings(string1?: String, string2?: String): number {
+        if (string1 < string2) {
+            return -1
+        }
+
+        if (string1 > string2) {
+            return 1;
+        }
+
+        return 0
+    }
+
+    function compare(user1: User, user2: User): number {
+        switch (orderBy) {
+            case UserOrderBy.FirstName: return compareStrings(user1.firstName, user2.firstName)
+            case UserOrderBy.LastName: return compareStrings(user1.lastName, user2.lastName)
+            default: return compareStrings(user1.id, user2.id)
+        }
+    }
+
+    if (orderBy) {
+        sortedUsers.sort(compare)
+    }
+
+    return sortedUsers
 }
 
 export function addUser(user: User) {
