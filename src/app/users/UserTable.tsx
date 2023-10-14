@@ -1,9 +1,9 @@
-import User from "@/app/common/users/User";
+import User, {UserOrderBy} from "@/app/common/users/User";
 
 interface Props {
     users: User[],
-    orderBy?: String
-    onOrderBy: (orderBy: string) => void
+    orderBy: UserOrderBy | null
+    onOrderBy: (orderBy: UserOrderBy) => void
 }
 
 export default function UserTable ({ users, orderBy, onOrderBy }: Props) {
@@ -24,12 +24,12 @@ export default function UserTable ({ users, orderBy, onOrderBy }: Props) {
         <thead>
             <tr>
                 <th>
-                    <OrderByLink targetOrderBy={"firstName"}>
+                    <OrderByLink targetOrderBy={UserOrderBy.FirstName}>
                         First name
                     </OrderByLink>
                 </th>
                 <th>
-                    <OrderByLink targetOrderBy={"lastName"}>
+                    <OrderByLink targetOrderBy={UserOrderBy.LastName}>
                         Last name
                     </OrderByLink>
                 </th>

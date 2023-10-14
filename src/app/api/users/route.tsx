@@ -1,16 +1,16 @@
-import {addUser, getUsers, UserOrderBy} from "@/app/api/users/UserRepository";
-import User from "@/app/common/users/User";
+import {addUser, getUsers} from "@/app/api/users/UserRepository";
+import User, {parseUserOrderBy, UserOrderBy} from "@/app/common/users/User";
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url)
 
-    let orderBy: UserOrderBy
+    let orderBy: UserOrderBy | null = null
 
-    if (searchParams.get("orderBy")) {
-        switch (searchParams.get("orderBy")) {
-            case "firstName": orderBy = UserOrderBy.FirstName; break;
-            case "lastName": orderBy = UserOrderBy.LastName; break;
-            default: return new Response("Invalid orderBy", { status: 400 })
+    if (searchParams.has("orderBy")) {
+        orderBy = parseUserOrderBy(searchParams.get("orderBy"))
+
+        if (orderBy == null) {
+            return new Response("Invalid orderBy", { status: 400 })
         }
     }
 

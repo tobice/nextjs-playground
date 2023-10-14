@@ -1,4 +1,4 @@
-import User from "../common/users/User";
+import User, {UserOrderBy} from "../common/users/User";
 import useSWR from "swr";
 
 const API_SERVER = "http://localhost:3000"
@@ -8,7 +8,7 @@ type UseTodosReturn = {
     addUser: (user: User) => Promise<void>
 }
 
-export default function useUsers(orderBy?: string, search?: string): UseTodosReturn {
+export default function useUsers(orderBy: UserOrderBy | null, search: string | null): UseTodosReturn {
     const url = new URL(API_SERVER + "/api/users");
 
     if (orderBy) {

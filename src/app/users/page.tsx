@@ -6,14 +6,15 @@ import {useRouter, useSearchParams} from "next/navigation";
 import SearchForm from "@/app/users/SearchForm";
 import useUpdateHrefQuery from "@/app/common/navigation/useUpdateHrefQuery";
 import UserTable from "@/app/users/UserTable";
+import {parseUserOrderBy, UserOrderBy} from "@/app/common/users/User";
 
 export default function Home() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const updateHrefQuery = useUpdateHrefQuery()
 
-    const orderBy = searchParams.get("orderBy") || null
-    const search = searchParams.get("search") || null
+    const orderBy = parseUserOrderBy(searchParams.get("orderBy"))
+    const search = searchParams.get("search")
 
     const { users, addUser } = useUsers(orderBy, search)
 
@@ -21,7 +22,7 @@ export default function Home() {
         router.push(updateHrefQuery({ search }))
     }
 
-    const handleOrderBy = (orderBy) => {
+    const handleOrderBy = (orderBy: UserOrderBy) => {
         router.push(updateHrefQuery({ orderBy }))
     }
 

@@ -1,4 +1,4 @@
-import User from "@/app/common/users/User";
+import User, {UserOrderBy} from "@/app/common/users/User";
 import {sort} from "next/dist/build/webpack/loaders/css-loader/src/utils";
 
 const users: User[] = [
@@ -34,12 +34,7 @@ const users: User[] = [
     }
 ];
 
-export enum UserOrderBy {
-    FirstName = "firstName",
-    LastName = "lastName",
-}
-
-export function getUsers(orderBy?: UserOrderBy, search?: String): User[] {
+export function getUsers(orderBy: UserOrderBy | null, search: string | null): User[] {
     let sortedUsers = [...users]
 
     function compareStrings(string1?: String, string2?: String): number {
@@ -62,11 +57,11 @@ export function getUsers(orderBy?: UserOrderBy, search?: String): User[] {
         }
     }
 
-    if (orderBy) {
+    if (orderBy != null) {
         sortedUsers.sort(compare)
     }
 
-    if (search) {
+    if (search != null) {
         const needle = search.toLowerCase()
         sortedUsers = sortedUsers.filter(user =>
             user.firstName.toLowerCase().includes(needle) ||
