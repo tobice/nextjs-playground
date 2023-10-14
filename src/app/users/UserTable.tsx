@@ -1,21 +1,25 @@
 import User, {UserOrderBy} from "@/app/common/users/User";
+import React from "react";
 
-interface Props {
+interface UserTableProps {
     users: User[],
     orderBy: UserOrderBy | null
     onOrderBy: (orderBy: UserOrderBy) => void
 }
 
-export default function UserTable ({ users, orderBy, onOrderBy }: Props) {
+export default function UserTable ({ users, orderBy, onOrderBy }: UserTableProps) {
 
-    function OrderByLink({ targetOrderBy, children }) {
+    interface OrderByLinkProps {
+        targetOrderBy: UserOrderBy,
+        children: React.ReactNode
+    }
+
+    function OrderByLink({ targetOrderBy, children }: OrderByLinkProps) {
         if (targetOrderBy == orderBy) {
             return <span className="text-black">{children}</span>
         }
 
-        return <span
-            onClick={() => onOrderBy(targetOrderBy)}
-            className="link">
+        return <span onClick={() => onOrderBy(targetOrderBy)} className="link">
             {children}
         </span>
     }

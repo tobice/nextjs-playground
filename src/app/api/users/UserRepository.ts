@@ -1,5 +1,4 @@
 import User, {UserOrderBy} from "@/app/common/users/User";
-import {sort} from "next/dist/build/webpack/loaders/css-loader/src/utils";
 
 const users: User[] = [
     {
@@ -37,7 +36,7 @@ const users: User[] = [
 export function getUsers(orderBy: UserOrderBy | null, search: string | null): User[] {
     let sortedUsers = [...users]
 
-    function compareStrings(string1?: String, string2?: String): number {
+    function compareStrings(string1: string, string2: string): number {
         if (string1 < string2) {
             return -1
         }
@@ -53,7 +52,7 @@ export function getUsers(orderBy: UserOrderBy | null, search: string | null): Us
         switch (orderBy) {
             case UserOrderBy.FirstName: return compareStrings(user1.firstName, user2.firstName)
             case UserOrderBy.LastName: return compareStrings(user1.lastName, user2.lastName)
-            default: return compareStrings(user1.id, user2.id)
+            default: return compareStrings(user1.id || "", user2.id || "")
         }
     }
 

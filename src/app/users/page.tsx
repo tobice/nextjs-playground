@@ -18,7 +18,7 @@ export default function Home() {
 
     const { users, addUser } = useUsers(orderBy, search)
 
-    const handleSearch = (search) => {
+    const handleSearch = (search: string) => {
         router.push(updateHrefQuery({ search }))
     }
 

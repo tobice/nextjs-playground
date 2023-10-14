@@ -1,4 +1,5 @@
 import User from "@/app/common/users/User";
+import React from "react";
 
 interface Props {
     onSubmit: (user: User) => void;
@@ -6,13 +7,13 @@ interface Props {
 
 const UserForm: React.FC<Props> = ({ onSubmit }) => {
 
-    function handleSubmit(event) {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const formData = new FormData(event.target)
+        const formData = new FormData(event.currentTarget)
         onSubmit({
-            firstName: formData.get("firstName").toString(),
-            lastName: formData.get("lastName").toString(),
-            email: formData.get("email").toString()
+            firstName: formData.get("firstName")!.toString(),
+            lastName: formData.get("lastName")!.toString(),
+            email: formData.get("email")!.toString()
         });
     }
 

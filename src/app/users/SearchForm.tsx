@@ -1,15 +1,15 @@
 import React from "react";
 
 interface Props {
-    onSubmit: (search: String) => void;
+    onSubmit: (search: string) => void;
 }
 
 const SearchForm = ({ onSubmit }: Props) => {
 
-    function handleSubmit(event) {
+    function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
-        const formData = new FormData(event.target)
-        onSubmit(formData.get("search").toString());
+        const formData = new FormData(event.currentTarget)
+        onSubmit(formData.get("search")!.toString() || "");
     }
 
     return (

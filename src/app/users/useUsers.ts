@@ -3,12 +3,15 @@ import useSWR from "swr";
 
 const API_SERVER = "http://localhost:3000"
 
-type UseTodosReturn = {
-    users?: User[],
+type UseUsersReturn = {
+    users: User[] | null,
     addUser: (user: User) => Promise<void>
 }
 
-export default function useUsers(orderBy: UserOrderBy | null, search: string | null): UseTodosReturn {
+export default function useUsers(
+    orderBy: UserOrderBy | null,
+    search: string | null
+): UseUsersReturn {
     const url = new URL(API_SERVER + "/api/users");
 
     if (orderBy) {
@@ -19,7 +22,8 @@ export default function useUsers(orderBy: UserOrderBy | null, search: string | n
         url.searchParams.append("search", search)
     }
 
-    const fetcher = (...args) => fetch(...args).then(res => res.json())
+    const fetcher = (input: RequestInfo, init?: RequestInit) =>
+        fetch(input, init).then(res => res.json())
     const { data: users, mutate } = useSWR(url.href, fetcher)
 
     async function addUser(user: User) {

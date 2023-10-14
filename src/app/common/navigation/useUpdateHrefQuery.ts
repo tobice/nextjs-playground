@@ -1,6 +1,7 @@
 import {usePathname, useSearchParams} from "next/navigation";
 
-export default function useUpdateHrefQuery(): (params: object) => string {
+export default function useUpdateHrefQuery():
+        (params: { [key: string]: string }) => string {
     const pathname: String = usePathname()
     const searchParams = useSearchParams()
 
