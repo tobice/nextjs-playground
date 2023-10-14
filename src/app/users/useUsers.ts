@@ -8,11 +8,15 @@ type UseTodosReturn = {
     addUser: (user: User) => Promise<void>
 }
 
-export default function useUsers(orderBy?: String): UseTodosReturn {
+export default function useUsers(orderBy?: string, search?: string): UseTodosReturn {
     const url = new URL(API_SERVER + "/api/users");
 
     if (orderBy) {
         url.searchParams.append("orderBy", orderBy)
+    }
+
+    if (search) {
+        url.searchParams.append("search", search)
     }
 
     const fetcher = (...args) => fetch(...args).then(res => res.json())

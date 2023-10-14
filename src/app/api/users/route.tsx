@@ -14,7 +14,7 @@ export async function GET(request: Request) {
         }
     }
 
-    return Response.json(getUsers(orderBy))
+    return Response.json(getUsers(orderBy, searchParams.get("search")))
 }
 
 export async function POST(request: Request) {
