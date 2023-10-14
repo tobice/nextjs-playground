@@ -4,7 +4,7 @@ import useSWR from "swr";
 const API_SERVER = "http://localhost:3000"
 
 type UseTodosReturn = {
-    users: User[],
+    users?: User[],
     addUser: (user: User) => Promise<void>
 }
 

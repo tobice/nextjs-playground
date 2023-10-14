@@ -2,10 +2,10 @@
 
 import useUsers from "@/app/users/useUsers";
 import UserForm from "@/app/users/UserForm";
-import Link from "next/link";
 import {useRouter, useSearchParams} from "next/navigation";
 import SearchForm from "@/app/users/SearchForm";
 import useUpdateHrefQuery from "@/app/common/navigation/useUpdateHrefQuery";
+import UserTable from "@/app/users/UserTable";
 
 export default function Home() {
     const router = useRouter()
@@ -21,18 +21,18 @@ export default function Home() {
         router.push(updateHrefQuery({ search }))
     }
 
+    const handleOrderBy = (orderBy) => {
+        router.push(updateHrefQuery({ orderBy }))
+    }
+
     return <>
         <UserForm onSubmit={addUser}/>
-        <p>
-            <Link href={updateHrefQuery({ orderBy: "firstName" })}>
-                Order by first name
-            </Link>
-            <Link href={updateHrefQuery({ orderBy: "lastName" })}>
-                Order by last name
-            </Link>
-        </p>
 
-        {users && users.map(user => <div key={user.id}>{user.firstName} {user.lastName}</div>)}
+        {users &&
+            <UserTable
+                users={users}
+                orderBy={orderBy}
+                onOrderBy={handleOrderBy} />}
 
         <SearchForm onSubmit={handleSearch} />
     </>
