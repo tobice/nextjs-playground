@@ -13,17 +13,15 @@ const SearchForm = ({ onSubmit }: Props) => {
     }
 
     return (
-        <form className="w-full" onSubmit={handleSubmit}>
-            <div className="flex space-x-2 items-center">
-                <input
-                    id="search"
-                    name="search"
-                    type="text"
-                    placeholder="Search"
-                    className="flex-1 p-2 border rounded-md"
-                />
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Search</button>
-            </div>
+        <form className="join" onSubmit={handleSubmit}>
+            <input
+                name="search"
+                type="text"
+                placeholder="Search"
+                className="input input-bordered join-item"
+            />
+            <button type="submit"
+                    className="btn join-item">Search</button>
         </form>
     );
 };

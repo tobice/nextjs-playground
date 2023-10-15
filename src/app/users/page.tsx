@@ -35,9 +35,16 @@ export default function Home() {
     const { users, addUser } = useUsers(orderBy, search)
 
     return <>
-        <button className="btn btn-primary" onClick={handleOpenModal}>
-            Add user
-        </button>
+        <div className="flex mb-6 justify-end">
+            <div className="mr-3">
+                <SearchForm onSubmit={handleSearch} />
+            </div>
+            <div>
+                <button className="btn btn-primary" onClick={handleOpenModal}>
+                    Add user
+                </button>
+            </div>
+        </div>
 
         <UserFormModal onSubmit={addUser} ref={addUserModalRef} />
 
@@ -47,6 +54,5 @@ export default function Home() {
                 orderBy={orderBy}
                 onOrderBy={handleOrderBy} />}
 
-        <SearchForm onSubmit={handleSearch} />
     </>
 }
