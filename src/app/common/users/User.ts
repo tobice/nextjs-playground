@@ -1,8 +1,25 @@
-export default interface User {
-    id?: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+import {z, ZodError} from "zod"
+
+export const UserSchema = z.object({
+    id: z.string().optional(),
+    email: z.string().email().min(1, "Email cannot be empty."),
+    firstName: z.string().min(1, "First name cannot be empty."),
+    lastName: z.string().min(1, "Last name cannot be empty."),
+});
+
+type User = z.infer<typeof UserSchema>;
+
+export default User
+
+export function parseUser(data: any): {
+    user: User,
+    error: ZodError
+} {
+    const validationResult = UserSchema.safeParse(data)
+    return {
+        user: validationResult.data,
+        error: validationResult.error
+    }
 }
 
 export function parseUserOrderBy(orderBy: any): UserOrderBy | null {
