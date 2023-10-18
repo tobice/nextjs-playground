@@ -1,6 +1,6 @@
 import './globals.css'
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import type {Metadata} from 'next'
+import {Inter} from 'next/font/google'
 import Link from "next/link";
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,19 +16,23 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en" data-theme="cupcake">
       <body className={inter.className}>
-        <div className="min-h-screen flex justify-center bg-gray-100 p-8">
-          <div className="w-full max-w-4xl bg-white rounded-lg shadow-md">
-            <nav className="bg-white shadow-md p-4 rounded-lg">
-              <ul className="flex space-x-4">
-                <li><Link href="/" className="text-blue-500 hover:underline">Home</Link></li>
-                <li><Link href="/users" className="text-blue-500 hover:underline">Users</Link></li>
-              </ul>
-            </nav>
-            <div className="p-8">
+        <div className="navbar ">
+          <div className="flex-1">
+            <a className="btn btn-ghost normal-case text-xl">Next.js Playground</a>
+          </div>
+          <div className="flex-none">
+            <ul className="menu menu-horizontal px-1">
+              <li><Link href="/" className="link link-hover">Home</Link></li>
+              <li><Link href="/users" className="link link-hover">Users</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="flex justify-center p-8">
+          <div className="w-full max-w-4xl bg-white rounded-lg shadow-md p-8">
               {children}
-            </div>
           </div>
         </div>
       </body>

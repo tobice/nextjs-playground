@@ -17,7 +17,7 @@ export default function Input({ label, value, onChange, error }: InputProps) {
                placeholder="Type here"
                className={`input input-bordered w-full ${error && "border-red-500"}`} />
         {error && <label className="label">
-            <span className="label-text-alt text-red-500">{error}</span>
+            <span className="label-text-alt text-error">{error}</span>
         </label>}
     </div>
 }
