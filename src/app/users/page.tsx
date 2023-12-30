@@ -29,7 +29,7 @@ export default function Home() {
 
     const handleOpenModal = () => {
         addUserModalRef.current?.showModal()
-        addUserModalRef.current?.querySelector("input").focus()
+        addUserModalRef.current?.querySelector("input")?.focus()
     }
 
     const { users, addUser } = useUsers(orderBy, search)

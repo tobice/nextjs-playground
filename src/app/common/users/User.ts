@@ -12,13 +12,21 @@ type User = z.infer<typeof UserSchema>;
 export default User
 
 export function parseUser(data: any): {
-    user: User,
-    error: ZodError
+    user: User | null,
+    error: ZodError | null
 } {
     const validationResult = UserSchema.safeParse(data)
-    return {
-        user: validationResult.data,
-        error: validationResult.error
+
+    if (validationResult.success) {
+        return {
+            user: validationResult.data,
+            error: null
+        }
+    } else {
+        return {
+            user: null,
+            error: validationResult.error
+        }
     }
 }
 

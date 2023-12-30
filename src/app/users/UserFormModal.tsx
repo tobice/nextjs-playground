@@ -1,5 +1,5 @@
 import User, {parseUser} from "@/app/common/users/User";
-import React, {forwardRef, MutableRefObject, useState} from "react";
+import React, {ForwardedRef, forwardRef, MutableRefObject, useState} from "react";
 import Input from "@/app/common/forms/Input";
 
 interface FormData {
@@ -17,9 +17,10 @@ const EMPTY_FORM_DATA: FormData = {
 interface UserModalProps {
     onSubmit: (user: User) => Promise<void>;
 }
+
 function UserFormModal(
     { onSubmit }: UserModalProps,
-    ref: MutableRefObject<HTMLDialogElement | null>
+    ref: ForwardedRef<HTMLDialogElement>
 ) {
     const [formData, setFormData] = useState<FormData>(EMPTY_FORM_DATA)
     const [shouldShowErrors, setShouldShowErrors] = useState<boolean>(false)
@@ -49,9 +50,12 @@ function UserFormModal(
         } else {
             setIsSubmitting(true)
             // TODO: handle failure
-            await onSubmit(user);
+            await onSubmit(user!!);
             reset()
-            ref.current?.close()
+
+            if (ref && "current" in ref) {
+                ref.current?.close();
+            }
         }
     }
 
@@ -64,27 +68,24 @@ function UserFormModal(
                 <h3 className="font-bold text-lg">Add user</h3>
                 <form className="w-full" onSubmit={handleSubmit}>
                     <fieldset disabled={isSubmitting}>
-                        <Input type="text"
-                               label="First name"
-                               value={formData.firstName}
-                               onChange={(firstName) => setFormData({ ...formData, firstName })}
-                               error={getErrorMessage("firstName")}
-                               placeholder="Type here"
-                               className="input input-bordered w-full" />
-                        <Input type="text"
-                               label="Last name"
-                               value={formData.lastName}
-                               onChange={(lastName) => setFormData({ ...formData, lastName })}
-                               error={getErrorMessage("lastName")}
-                               placeholder="Type here"
-                               className="input input-bordered w-full" />
-                        <Input type="text"
-                               label="Email"
-                               value={formData.email}
-                               onChange={(email) => setFormData({ ...formData, email })}
-                               error={getErrorMessage("email")}
-                               placeholder="Type here"
-                               className="input input-bordered w-full" />
+                        <Input
+                            label="First name"
+                            value={formData.firstName}
+                            onChange={(firstName) => setFormData({ ...formData, firstName })}
+                            error={getErrorMessage("firstName")}
+                        />
+                        <Input
+                            label="Last name"
+                            value={formData.lastName}
+                            onChange={(lastName) => setFormData({ ...formData, lastName })}
+                            error={getErrorMessage("lastName")}
+                        />
+                        <Input
+                            label="Email"
+                            value={formData.email}
+                            onChange={(email) => setFormData({ ...formData, email })}
+                            error={getErrorMessage("email")}
+                        />
 
                         <button type="submit"
                                 className="btn btn-primary w-full mt-6">
