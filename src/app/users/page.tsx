@@ -5,9 +5,9 @@ import {useRouter, useSearchParams} from "next/navigation";
 import SearchForm from "@/app/users/SearchForm";
 import useUpdateHrefQuery from "@/app/common/navigation/useUpdateHrefQuery";
 import UserTable from "@/app/users/UserTable";
-import {parseUserOrderBy, UserOrderBy} from "@/app/common/users/User";
+import User, {parseUserOrderBy, UserOrderBy} from "@/app/common/users/User";
 import {useRef} from "react";
-import UserFormModal from "@/app/users/UserFormModal";
+import UserForm from "@/app/users/UserForm";
 
 export default function Home() {
     const router = useRouter()
@@ -34,6 +34,11 @@ export default function Home() {
 
     const { users, addUser } = useUsers(orderBy, search)
 
+    const handleAddUser = async (user: User) => {
+        await addUser(user)
+        addUserModalRef.current?.close()
+    }
+
     return <>
         <div className="flex mb-6 justify-end">
             <div className="mr-3">
@@ -46,7 +51,9 @@ export default function Home() {
             </div>
         </div>
 
-        <UserFormModal onSubmit={addUser} ref={addUserModalRef} />
+        <dialog className="modal" ref={addUserModalRef}>
+            <UserForm onSubmit={handleAddUser} />
+        </dialog>
 
         {users &&
             <UserTable
